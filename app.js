@@ -5,94 +5,145 @@ Description : Club Matching Members
 
 */
 
-let partnerOne = "Themba",partnerTwo = "Thabiso";
+const reader = require('./reader.js');
 
-//Anonymous Function For Matching Algorithm
-((partnerOne,partnerTwo)=>{
+((r) => {
 
-    //Try Catch Block To Validate If Input Names Are In Correct Format
-    try{
+    let calc = (string_result) => {
 
-        //Check If The Input Names Are Only Alphabetical Characters
-        if(/^[a-zA-Z]+$/.test(partnerOne) && /^[a-zA-Z]+$/.test(partnerTwo)){
+        console.log(string_result);
+    
+        if(string_result.length === 1 || string_result.length === 2){
+    
+            return string_result;
+    
+        }else{
+    
+            // Calculate The Match Percentage
+            let j = string_result.length - 1;
+            let sum = "";
+   
+            for(let i = 0; i < parseInt(string_result.length/2); i++){
 
-            let matchSentence = (partnerOne + " Matches " + partnerTwo).toLowerCase();
-            let res = "";
+                if(i != parseInt(string_result.length/2)){
 
-            const counted = [];
+                    sum += parseInt(string_result[i]) + parseInt(string_result[j]);
 
-            for( let i = 0; i < matchSentence.length; i++){
-                
-
-                if(counted.includes(matchSentence[i]) || matchSentence[i] === " "){
-
-                    continue;
-
-                }else{
-
-                    res += matchSentence.split(matchSentence[i]).length - 1;
-                    counted[i] = matchSentence[i];
+                    j--;
 
                 }
 
+                if(string_result.length % 2 === 1 && i === parseInt(string_result.length/2) - 1){
+    
+                    sum = sum.toString();
+                    sum += string_result[i + 1]; 
+    
+                }
+                
+                    
+                
+    
             }
-
-            console.log(calcPercentage(res));
-
-        }else{
-
-            //Throws A Error Message 
-            throw "Only Alphabetical Characters Are Allowed On Names.";
+            string_result = sum.toString();
+            return calc(string_result);
 
         }
-
-    }catch(err){
-
-        console.log(err);
-
+    
     }
 
+    let matcher = (male, female) => {
 
-})(partnerOne,partnerTwo);
+        //Try Catch Block To Validate If Input Names Are In Correct Format
+        try{
 
-function calcPercentage(res){
+            //Check If The Input Names Are Only Alphabetical Characters
+            if(/^[a-zA-Z]+$/.test(male) && /^[a-zA-Z]+$/.test(female)){
 
-    console.log(res);
+                let sentence = `${male} matches ${female}`
+                let string_result = "";
+                const counted = [];
 
-    if(res.length === 1 || res.length === 2){
+                for( let i = 0; i < sentence.length; i++){
 
-        return res;
+                    // if(!counted.includes(sentence[i]) || sentence[i] !== ""){
 
-    }else{
+                    //     string_result += sentence.split(sentence[i]).length - 1;
+                    //     counted[i] = sentence[i];
 
-        // Calculate The Match Percentage
-        let j = res.length -1;
-        let sum = "";
+                    // }
+                    
 
-        for(let i = 0; i < res.length/2; i++){
+                    if(counted.includes(sentence[i]) || sentence[i] === " "){
 
-            
+                        continue;
 
-            if(i < res.length/2 && j > res.length/2){
+                    }else{
 
-                sum += parseInt(res[i]) + parseInt(res[j]);
-                j--;
+                        string_result += sentence.split(sentence[i]).length - 1;
+                        counted[i] = sentence[i];
+                        
+                    }
+
+                }
+
+                output(sentence,parseInt(calc(string_result)));
+
+                (score) => {
+
+                    let result = new Set();
+
+                    result.add(calc(string_result));
+
+                    return result;
+
+                }
                 
 
-            }else if(res.length % 2 ===1 && i === res.length/2){
 
-                sum += res[i + 1]; 
+            }else{
+
+                //Throws A Error Message 
+                throw "Only Alphabetical Characters Are Allowed On Names.";
 
             }
 
+        }catch(err){
+
+            console.log(err);
+
         }
-
-        res = sum;
-        return calcPercentage(res);
-
-        
 
     }
 
-}
-console.log(calcPercentage("1234567"));
+
+    let output = (sentence,percent) => {
+
+        console.log(sentence);
+        console.log(percent);       
+        console.log(percent < 80 ? "Not A Good Match" : "Good Match");
+
+    }
+
+    r.Streamer(players => {
+
+        console.log(players.males)
+        console.log(players.females)
+
+        players.males.forEach(male => {
+
+            players.females.forEach(female => {
+
+                matcher(male, female)
+
+            })
+
+        })
+    
+    })
+
+})(reader);
+
+// let partnerOne = "Themba",partnerTwo = "Thabiso";
+// ((partnerOne,partnerTwo)=>{
+// })(partnerOne,partnerTwo);
+// console.log(calc("1234567"));
