@@ -30,4 +30,3 @@ const streamer = (callback) => {
 }
 
 exports.Streamer = streamer
-exports.Fs = fs;

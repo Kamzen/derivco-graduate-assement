@@ -161,6 +161,7 @@ const reader = require('./reader.js');
 
         })
 
+        //writing to text file in descending order
         let scores = Array.from(result);
         scores = scores.sort();
         let matched = Array.from(matches);
