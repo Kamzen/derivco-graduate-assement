@@ -6,12 +6,16 @@ Description : Club Matching Members
 */
 
 const reader = require('./reader.js');
+// const writer = require('./writer.js');
 
 ((r) => {
 
+    let result = [];
+    let matches = [];
+
     let calc = (string_result) => {
 
-        console.log(string_result);
+        // console.log(string_result);
     
         if(string_result.length === 1 || string_result.length === 2){
     
@@ -88,16 +92,34 @@ const reader = require('./reader.js');
 
                 output(sentence,parseInt(calc(string_result)));
 
-                (score) => {
+                result.push(calc(string_result));
+                matches.push(sentence);
 
-                    let result = new Set();
+                // scores = (score) => {
 
-                    result.add(calc(string_result));
+                //     result.add(calc(string_result));
 
-                    return result;
+                //     return [... result];
 
-                }
-                
+                // }
+
+                // for(let i = 0; i < scores; i++){
+
+                //     for(let j = 0; j < scores; j++){
+
+                //         if(scores[j] < scores[j + 1]){
+
+                //             scores[j + 1] = scores[j];
+
+                //         }else{
+
+                //             scores[j] = scores[j + 1];
+
+                //         }
+
+                //     }
+
+                // }
 
 
             }else{
@@ -120,7 +142,7 @@ const reader = require('./reader.js');
 
         console.log(sentence);
         console.log(percent);       
-        console.log(percent < 80 ? "Not A Good Match" : "Good Match");
+        console.log(percent < 80 ? "Not A Good Match\n" : "Good Match\n");
 
     }
 
@@ -138,6 +160,45 @@ const reader = require('./reader.js');
             })
 
         })
+
+        let scores = Array.from(result);
+        scores = scores.sort();
+        let matched = Array.from(matches);
+        
+        let outputs = [];
+        let i = 0;
+
+        scores.forEach(score => {
+
+            outputs.push(score + " , " + matched[i] + "\n");
+            i++;
+
+        })
+
+        outputs = outputs.sort();
+
+        const fs = require('fs');
+
+        fs.writeFile('./output.txt',"", (err) => {
+
+            if(err)
+            console.log(err);
+
+        })
+
+        for(let i = outputs.length - 1; i >= 0; i--){
+
+            fs.appendFile('./output.txt', outputs[i],(err) =>{
+
+                if(err){
+    
+                    console.log(err);
+    
+                }
+    
+            })
+
+        }
     
     })
 

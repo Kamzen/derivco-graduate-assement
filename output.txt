@@ -1,0 +1,12 @@
+91 , zack matches billy
+71 , zack matches trini
+71 , zack matches kimberly
+71 , tommy matches billy
+70 , tommy matches trini
+62 , tommy matches kimberly
+62 , billy matches billy
+61 , billy matches trini
+53 , billy matches kimberly
+20 , jason matches trini
+20 , jason matches kimberly
+20 , jason matches billy
